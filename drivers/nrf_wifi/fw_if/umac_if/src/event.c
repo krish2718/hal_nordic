@@ -9,6 +9,8 @@
  * FMAC IF Layer of the Wi-Fi driver.
  */
 
+#include <stdio.h>
+
 #include "queue.h"
 #include "host_rpu_umac_if.h"
 #include "hal_mem.h"
@@ -20,6 +22,10 @@
 #endif /* !NRF70_OFFLOADED_RAW_TX */
 #include "fmac_cmd.h"
 #include "fmac_util.h"
+
+#ifndef ARRAY_SIZE
+#define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]))
+#endif
 
 #ifdef NRF70_DATA_TX
 static enum nrf_wifi_status
@@ -1066,6 +1072,17 @@ static enum nrf_wifi_status umac_process_sys_events(struct nrf_wifi_fmac_dev_ctx
 		status = NRF_WIFI_STATUS_SUCCESS;
 		break;
 #endif /* NRF70_RAW_DATA_RX || NRF70_PROMISC_DATA_RX */
+	case NRF_WIFI_EVENT_SCAN_DEBUG:
+		struct nrf_wifi_umac_event_scan_debug *scan_debug_event;
+
+		scan_debug_event = (struct nrf_wifi_umac_event_scan_debug *)sys_head;
+		nrf_wifi_osal_log_info("Connected Scan debug event");
+		for (int i = 0; i < ARRAY_SIZE(scan_debug_event->debug_data); i++) {
+			printf("Data[%d]: %02x ", i, scan_debug_event->debug_data[i]);
+		}
+		printf("\n");
+		status = NRF_WIFI_STATUS_SUCCESS;
+		break;
 	default:
 		nrf_wifi_osal_log_err("%s: Unknown event recd: %d",
 				      __func__,

@@ -171,8 +171,6 @@ enum nrf_wifi_sys_commands {
 	NRF_WIFI_CMD_OFFLOAD_RAW_TX_PARAMS,
 	/** Command to enable/disable raw tx offloading */
 	NRF_WIFI_CMD_OFFLOAD_RAW_TX_CTRL,
-	/** Scan debug params event from RPU */
-	NRF_WIFI_EVENT_SCAN_DEBUG,	
 };
 
 /**
@@ -206,6 +204,8 @@ enum nrf_wifi_sys_events {
 	NRF_WIFI_EVENT_RAW_TX_DONE,
 	/** Command status events for offloaded raw tx commands */
 	NRF_WIFI_EVENT_OFFLOADED_RAWTX_STATUS,
+	/** Scan debug params event from RPU */
+	NRF_WIFI_EVENT_SCAN_DEBUG,
 };
 
 /**
